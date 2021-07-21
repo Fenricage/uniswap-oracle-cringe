@@ -12,8 +12,7 @@ const gasPrice = 10n**9n;
 
 const getContract = (abi, address, web3) => {
   // const _web3 = web3
-
-  const _web3 = new Web3(Web3.givenProvider);
+  const _web3 = new Web3(window.ethereum);
   console.log('_web3', _web3)
   return new _web3.eth.Contract(abi, address);
 };
@@ -48,12 +47,20 @@ const fetchPrice = async () => {
 // inside this contract call we'll have trustless access to a Uniswap average price between `blockNumber` and `currentBlockNumber`
   const priceEmitter = getContract(emitterAbi, '0x90b0a887a008DdBE63B6aBd8D304D634dcC07516');
   console.log('rpc', rpc)
+  console.log('proof', proof) 
   const priceEmitterRes = await priceEmitter.methods.emitPrice(`0x${uniswapExchangeAddress}`, denominationTokenAddress2, 0n, 20n, proof)
     .send({ from: '0xab3d19A29a4a95E51abAeE18Bba2DFb62e4ddBb8' });
   console.log('priceEmitterRes', priceEmitterRes)
 }
 
 function App() {
+
+  useEffect(() => {
+    const enableMetamask =  async () => {
+      await window.ethereum.enable();
+    }
+    enableMetamask()
+  }, [])
 
   useEffect(() => {
     fetchPrice()
