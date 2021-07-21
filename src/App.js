@@ -47,7 +47,7 @@ const fetchPrice = async () => {
 // inside this contract call we'll have trustless access to a Uniswap average price between `blockNumber` and `currentBlockNumber`
   const priceEmitter = getContract(emitterAbi, '0x90b0a887a008DdBE63B6aBd8D304D634dcC07516');
   console.log('rpc', rpc)
-  console.log('proof', proof) 
+  console.log('proof', proof)
   const priceEmitterRes = await priceEmitter.methods.emitPrice(`0x${uniswapExchangeAddress}`, denominationTokenAddress2, 0n, 20n, proof)
     .send({ from: '0xab3d19A29a4a95E51abAeE18Bba2DFb62e4ddBb8' });
   console.log('priceEmitterRes', priceEmitterRes)
